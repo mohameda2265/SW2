@@ -105,6 +105,7 @@ class attendance_handler {
     public static function get_session($sessionid) {
         global $DB;
 
+
         $session = $DB->get_record('attendance_sessions', array('id' => $sessionid));
         $session->courseid = $DB->get_field('attendance', 'course', array('id' => $session->attendanceid));
         $session->statuses = attendance_get_statuses($session->attendanceid, true, $session->statusset);

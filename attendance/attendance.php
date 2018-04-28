@@ -26,6 +26,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/locallib.php');
 require_once(dirname(__FILE__).'/student_attendance_form.php');
 
+
 $pageparams = new mod_attendance_sessions_page_params();
 
 // Check that the required parameters are present.

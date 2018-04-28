@@ -81,7 +81,19 @@ $userdata = new attendance_user_data($att, $userid);
 $header = new mod_attendance_header($att);
 
 echo $output->header();
+$verify1 = $DB->count_records('role_assignments', array('userid'=>$USER->id,'roleid'=>5));
+if($verify1 >=1){
 
+    echo $OUTPUT->single_button( new moodle_url( '/mod/attendance/excuse.php'), 'Excuses');
+}
+
+//$verify2 = $DB->count_records('role_assignments', array('userid'=>$USER->id,'roleid'=>3));
+//$verify1 = $DB->count_records('role_assignments', array('userid'=>$USER->id,'roleid'=>3));
+//$verify2 = $DB->count_records('role_assignments', array('userid'=>$USER->id,'roleid'=>4));
+//if($verify1 >=1 || $verify2>=1){
+//    $count_my_excuses = $DB->count_records('attendance_excuses', array('to_id'=>$USER->id));
+//    echo $OUTPUT->single_button( new moodle_url( '/mod/attendance/viewex.php'), 'Excuses ('.$count_my_excuses.')');
+//}
 echo $output->render($header);
 echo $output->render($userdata);
 

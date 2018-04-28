@@ -89,7 +89,13 @@ $header = new mod_attendance_header($att, $title);
 // Output starts here.
 
 echo $output->header();
+
 echo $output->render($header);
+$verify2 = $DB->count_records('role_assignments', array('userid'=>$USER->id,'roleid'=>3));
+if($verify2 >=1){
+
+    echo $OUTPUT->single_button( new moodle_url( '/mod/attendance/viewex.php'), 'Show Excuses');
+}
 mod_attendance_notifyqueue::show();
 echo $output->render($tabs);
 echo $output->render($filtercontrols);

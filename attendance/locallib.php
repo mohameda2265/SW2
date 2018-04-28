@@ -54,6 +54,66 @@ define('ATTENDANCE_MAXWARNAFTER', 100);
  * @param int $statusset
  * @return array
  */
+
+
+function get_excuses(){
+    global $DB, $USER;
+    $user_id = $USER->id;
+    $query = "SELECT * FROM {attendance_excuses} WHERE to_id = ?";
+
+    $excuses = $DB->get_records_sql($query,array($user_id));
+    return $excuses;
+}
+
+function get_student_name($userid){
+    global $DB;
+    $query = "SELECT firstname,lastname FROM {user} WHERE id = ?";
+
+    $name = $DB->get_record_sql($query,array($userid));
+    $fullname = $name->firstname;
+    $fullname.=' '.$name->lastname;
+    return $fullname;
+}
+
+function get_attendances(){
+    global $DB;
+
+    $query = "SELECT id , description FROM {attendance_sessions}";
+    $query2 = "SELECT x.id, CONCAT(x.firstname, ' ', x.lastname) as fullname FROM {user} x JOIN {role_assignments} y ON y.userid = x.id WHERE y.roleid = ? OR y.roleid = ? OR y.roleid = ?";
+
+    $teachers = $DB->get_records_sql($query2,array('4','3','2'));
+
+    $rows = $DB->get_records_sql($query);
+    $select= "<form style='margin-left:100px;' method='post'><select required name='select2'  >";
+    $select.= '  <option required value="" selected disabled hidden>Select Attendance</option>';
+    foreach($rows as $row)
+    {
+        $select.='<option value="'.$row->id.'">'.$row->description.'</option>';
+
+    }
+    $select.='</select><br><br><br>';
+    $select.= "<select required name='select1'>Select Teacher";
+    foreach($teachers as $teacher)
+    {
+        $select.='<option value="'.$teacher->id.'">'.$teacher->fullname.'</option>';
+
+    }
+    $select.='</select><br><br><br>';
+    $select.='<textarea name="desc" rows="5" cols="40" required></textarea><br>
+                <input style="background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; " type="submit" name="sub" />';
+    $select.='</form>';
+
+    return $select;
+}
+
+
 function attendance_get_statuses($attid, $onlyvisible=true, $statusset = -1) {
     global $DB;
 

@@ -48,8 +48,8 @@ class block_advnotifications extends block_base
     {
         global $CFG;
 
-//        echo "<h1 style='display:block !important; font-size:80px;'>";
-//        echo sizeof($result);
+ //       echo "<h1 style='display:block !important; font-size:80px;'>";
+ //       echo sizeof($result);
 //        echo"</h1>";
 
         if ($this->content !== null) {
@@ -63,8 +63,13 @@ class block_advnotifications extends block_base
             $absence = new Absence();
 
             $num_of_absences = $absence->get_absence_times();
+            $rem=$absence->get_remarks();
             if ($num_of_absences >= 3) {
-//                echo "<script>alert()</script>";
+//               echo "<script>alert()</script>";
+                echo "<h1 style='display:block !important; font-size:80px;'>";
+                echo $rem;
+                echo"</h1>";
+
                 // Get the renderer for this page.
                 $renderer = $this->page->get_renderer('block_advnotifications');
 
